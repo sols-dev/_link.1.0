@@ -6,4 +6,5 @@ The goal is to use tiles to loop around your opponent or link both ends of your 
 
 
 
+
 _sols
