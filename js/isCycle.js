@@ -1,5 +1,5 @@
 function isCycle(nodeId, board){
-    let path ="";
+    path ="";
     let visited =
     [
         [ 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ],//0
@@ -15,7 +15,7 @@ function isCycle(nodeId, board){
         [ 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 ]//10
     ];
 
-    if(isCycleUtil(nodeId, visited, board, path)){console.log("won");return true}
+    if(isCycleUtil(nodeId, visited, board)){console.log("won");return true}
     else{return false};
     //Returns true if the graph contains a cycle, else false.
 
@@ -26,21 +26,17 @@ function isCycle(nodeId, board){
 
 
 //okayyy! its rotating now! what's next now...
-function isCycleUtil(nodeId, visited, board, path, parentId){
+function isCycleUtil(nodeId, visited, board, parentId){
     // Mark the current node as visited
-    // console.log(nodeId)
-    const colId = getCol(nodeId); const rowId = getRow(nodeId);
+    const colId = getColInt(nodeId); const rowId = getRowInt(nodeId);
     path += board[rowId][colId];
-    if (path.search("i") > -1 && path.search("e") > -1){return true}
+    if (path.search("i") > -1 && path.search("e") > -1){return true};
     if (visited[rowId][colId]){return true};
     visited[rowId][colId] = true;
-    // console.log(visited)
-
     //Recur for all the vertices adjacent to this vertex
     //If an adjacent is not visited, then recur for that adjacent
-
     const topId = getTopId(nodeId);
-    const topColId = getCol(topId); const topRowId = getRow(topId);
+    const topColId = getColInt(topId); const topRowId = getRowInt(topId);
     // console.log(topColId)
     // console.log(topRowId)
     //makes sure that thevalue isnt out of the array in order to not get undefinned somwhere
@@ -49,43 +45,43 @@ function isCycleUtil(nodeId, visited, board, path, parentId){
         if (board[topRowId][topColId] && topId !== parentId){
             // console.log("top")
             //runs the recursive function and return true out of this function if recursive is true
-            if (isCycleUtil(topId, visited, board, path, nodeId)){return true};
+            if (isCycleUtil(topId, visited, board, nodeId)){return true};
         };
     };
 
 
     const rightId = getRightId(nodeId);
-    const rightColId = getCol(rightId); const rightRowId = getRow(rightId);
+    const rightColId = getColInt(rightId); const rightRowId = getRowInt(rightId);
     // console.log(rightColId)
     // console.log(rightRowId)
     if (rightColId >= 0 && rightColId <=10 && rightRowId >= 0 && rightRowId <= 10){
         if (board[rightRowId][rightColId] && rightId !== parentId){
             // console.log("right")
-            if (isCycleUtil(rightId, visited, board, path, nodeId)){return true};
+            if (isCycleUtil(rightId, visited, board, nodeId)){return true};
         };
     };
 
 
     const botId = getBotId(nodeId);
-    const botColId = getCol(botId); const botRowId = getRow(botId);
-    // console.log(botColId)
+    const botColId = getColInt(botId); const botRowId = getRowInt(botId);
+    // console.log(botId)
     // console.log(botRowId)
     if (botColId >= 0 && botColId <=10 && botRowId >= 0 && botRowId <= 10){
         if (board[botRowId][botColId] && botId !== parentId){
             // console.log("bot")
-            if (isCycleUtil(botId, visited, board, path, nodeId)){return true};
+            if (isCycleUtil(botId, visited, board, nodeId)){return true};
         };
     };
 
 
     const leftId = getLeftId(nodeId);
-    const leftColId = getCol(leftId); const leftRowId = getRow(leftId);
+    const leftColId = getColInt(leftId); const leftRowId = getRowInt(leftId);
     // console.log(leftColId)
     // console.log(leftRowId)
     if (leftColId >= 0 && leftColId <=10 && leftRowId >= 0 && leftRowId <= 10){
         if (board[leftRowId][leftColId] && leftId !== parentId){
             // console.log("left")
-            if (isCycleUtil(leftId, visited, board, path, nodeId)){return true};
+            if (isCycleUtil(leftId, visited, board, nodeId)){return true};
         };
     };
 

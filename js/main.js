@@ -1,5 +1,5 @@
 //state variables //
-let xboard, yboard, turn, win;
+let xboard, yboard, turn, win, path;
 
 //cached element references //
 const boardEl = document.getElementById('board');
@@ -11,28 +11,32 @@ boardEl.addEventListener('click', handleTileClick);
 
 
 
-//usefull funnctions
-function getCol(nodeId){
-//returns a col number from an cxry nodeId
-    colId = parseInt(nodeId.slice(1,3).replace("T","10"));
-    return colId;
+//usefull functions
+function getColInt(nodeId){
+    foo = nodeId.split('r');
+    foo = foo[0];
+    foo = foo.slice(1)
+    foo = parseInt(foo);
+    return foo;
 }
 
-function getRow(nodeId){
-//returns a row number from an cxry nodeId
-    rowId = parseInt(nodeId.slice(3,4).replace("T","10"));
-    return rowId;
-}
+
+function getRowInt(nodeId){
+    foo = nodeId.split('r');
+    foo = foo[1];
+    foo = parseInt(foo);
+    return foo;
+};
 
 function buildId(colId, rowId){
 //takes to number to build an cxry nodeId
-    const id = "c" + colId.toString().replace("10","T") + "r" + rowId.toString().replace("10","T");
+    const id = "c" + colId.toString() + "r" + rowId.toString();
     return id;
 }
 
 function getTopId(nodeId){
-    const colId = getCol(nodeId);
-    const rowId = getRow(nodeId);
+    const colId = getColInt(nodeId);
+    const rowId = getRowInt(nodeId);
     const topColId = colId;
     const topRowId = rowId - 1;
     const topId = buildId(topColId, topRowId);
@@ -40,8 +44,8 @@ function getTopId(nodeId){
 }
 
 function getRightId(nodeId){
-    const colId = getCol(nodeId);
-    const rowId = getRow(nodeId);
+    const colId = getColInt(nodeId);
+    const rowId = getRowInt(nodeId);
     const rightColId = colId + 1;
     const rightRowId = rowId;
     const rightId = buildId(rightColId, rightRowId);
@@ -49,8 +53,8 @@ function getRightId(nodeId){
 }
 
 function getBotId(nodeId){
-    const colId = getCol(nodeId);
-    const rowId = getRow(nodeId);
+    const colId = getColInt(nodeId);
+    const rowId = getRowInt(nodeId);
     const botColId = colId;
     const botRowId = rowId + 1;
     const botId = buildId(botColId, botRowId);
@@ -58,8 +62,8 @@ function getBotId(nodeId){
 }
 
 function getLeftId(nodeId){
-    const colId = getCol(nodeId);
-    const rowId = getRow(nodeId);
+    const colId = getColInt(nodeId);
+    const rowId = getRowInt(nodeId);
     const leftColId = colId -1;
     const leftRowId = rowId;
     const leftId = buildId(leftColId, leftRowId);
@@ -78,9 +82,8 @@ function whoStartsTurn() {
 
 //In game functions
 function updateBoard(nodeId){
-    const colId = getCol(nodeId);
-    const rowId = getRow(nodeId);
-    console.log(turn)
+    const colId = getColInt(nodeId);
+    const rowId = getRowInt(nodeId);
     if (turn === "x"){
         xboard[rowId][colId] = turn;
         return isCycle(nodeId, xboard);
@@ -141,12 +144,11 @@ function changeTurnColor(){
 
 //event listener functions
 function handleTileClick(){
-    console.log()
     const el = event.target;
     if(el.className === "tile"){
         const nodeId = el.id;
-        const colId = getCol(nodeId);
-        const rowId = getRow(nodeId);
+        const colId = getColInt(nodeId);
+        const rowId = getRowInt(nodeId);
         // console.log(rowId)
         // console.log(colId)
         // avoids the edges depending on the color//
